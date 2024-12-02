@@ -1,0 +1,314 @@
+// Variables
+$primary-color: #2196F3;
+$primary-color-dark: #1976D2;
+$background-color: #f0f0f0;
+$control-bg: rgba(255, 255, 255, 0.9);
+$text-color: #333;
+$border-radius: 8px;
+$toggle-size: 44px;
+$toggle-height: 24px;
+$thumb-size: 20px;
+
+// Theme colors
+:root {
+    --bg-color: #{$background-color};
+    --control-bg: #{$control-bg};
+    --text-color: #{$text-color};
+    --slider-bg: #ddd;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --control-bg: rgba(40, 40, 40, 0.9);
+    --text-color: #fff;
+    --slider-bg: #444;
+    
+    .file-input-container label {
+        background: $primary-color;
+        
+        &:hover {
+            background: $primary-color-dark;
+        }
+    }
+}
+
+// Base styles
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s;
+}
+
+// Controls
+.controls {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 25px;
+    padding-left: 12px;
+    background: var(--control-bg);
+    border-radius: $border-radius;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    flex-wrap: wrap;
+    max-width: calc(100% - 40px);
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 20px;
+        min-width: 280px;
+        width: 80%;
+        max-width: 400px;
+        
+        > * {
+            width: 100%;
+        }
+        
+        .file-input-container label {
+            justify-content: center;
+            width: 100%;
+
+            padding: 8px 0;
+        }
+        
+        .slider-container, .toggle-container {
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 8px;
+        }
+    }
+}
+
+// Logo
+.bane-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-color);
+    cursor: pointer;
+    
+    img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+// Containers
+.slider-container, .toggle-container {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    label {
+        font-size: 14px;
+        color: var(--text-color);
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        padding: 8px 0;
+    }
+}
+
+// Preview Container
+#previewContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    max-width: none;
+    background-repeat: repeat;
+    background-position: left top;
+
+    img {
+        display: none;
+    }
+
+    &.pixelated {
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+    }
+}
+
+// File Input
+input[type="file"] {
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.file-input-container {
+    position: relative;
+    
+    input[type="file"] {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        
+        &:focus + label {
+            box-shadow: 0 0 0 2px $primary-color;
+        }
+    }
+    
+    &.drag-over label {
+        background: $primary-color-dark;
+        transform: scale(1.02);
+        box-shadow: 0 0 0 2px $primary-color;
+    }
+    
+    label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: $primary-color;
+        color: white;
+        border-radius: $border-radius;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+        font-weight: 500;
+        transform: scale(1);
+        
+        &:hover {
+            background: $primary-color-dark;
+            transform: scale(1.02);
+        }
+        
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}
+
+// Range Input
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 150px;
+    height: 4px;
+    background: var(--slider-bg);
+    border-radius: 2px;
+    outline: none;
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: $primary-color;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+            background: $primary-color-dark;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        width: 60%;
+        margin-left: 0;
+    }
+}
+
+// Toggle Switch
+.toggles {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.toggle {
+    input[type="checkbox"] {
+        display: none;
+    }
+
+    label {
+        position: relative;
+        display: inline-block;
+        width: $toggle-size;
+        height: $toggle-height;
+        margin-left: 8px;
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: $thumb-size;
+            height: $thumb-size;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            width: $toggle-size;
+            height: $toggle-height;
+            background: #ddd;
+            border-radius: calc($toggle-height / 2);
+            transition: all 0.3s;
+        }
+    }
+
+    input[type="checkbox"]:checked + label {
+        &::before {
+            background: $primary-color;
+        }
+        &::after {
+            left: calc($toggle-size - $thumb-size - 2px);
+        }
+    }
+}
+
+// Context Menu
+.context-menu {
+    position: fixed;
+    display: none;
+    background: var(--control-bg);
+    border-radius: $border-radius;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    padding: 8px 0;
+    z-index: 1100;
+    backdrop-filter: blur(8px);
+    
+    .menu-item {
+        padding: 8px 16px;
+        font-size: 14px;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: background-color 0.2s;
+        
+        &:hover {
+            background: rgba($primary-color, 0.1);
+        }
+    }
+}
